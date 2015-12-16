@@ -24,19 +24,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView2" />
+            android:id="@+id/test_wording" />
 
         <RadioGroup
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/test_radioGroup">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_button_send"
-                android:visibility="invisible"
-                android:onClick="send"
-                android:id="@+id/button" />
         </RadioGroup>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/test_button_send"
+            android:visibility="invisible"
+            android:onClick="send"
+            android:id="@+id/test_button_send" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ayuda"
+            android:visibility="invisible"
+            android:id="@+id/test_button_ayuda" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/test_texto_ayuda" />
+
     </LinearLayout>
 </RelativeLayout>

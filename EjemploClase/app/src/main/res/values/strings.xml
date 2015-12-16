@@ -21,7 +21,8 @@
     <string name="exercise_audio">Grabar Audio</string>
     <string name="exercise_video">Grabar Video</string>
     <string name="exercise_encabezado">Explica como aplicarias el patron de diseño MVC en el desarrollo de una app para Android</string>
-
+    <string name="test_texto_help">The manifest describes the components of the app: actividades, servicios, broadcast
+    receviers, y content provider de los que esta compuesta la aplicacion.......</string>
 
 
 </resources>
