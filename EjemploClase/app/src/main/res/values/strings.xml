@@ -7,4 +7,9 @@
     <string name="menu_password">Contraseña</string>
     <string name="menu_password_contenido">Introduce Contraseña</string>
     <string name="menu_boton_acceder">Acceder</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="menu_leccion">Lección 1: Introducción a Android</string>
+    <string name="menu_test">Nuevo Test</string>
+    <string name="menu_ejercicio">Nuevo ejercicio</string>
+    <string name="menu_seguimiento">Seguimiento</string>
 </resources>
