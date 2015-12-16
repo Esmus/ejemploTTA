@@ -32,24 +32,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exercise_fichero"
+            android:onClick="subirFichero"
             android:id="@+id/exercise_button2" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exercise_foto"
+            android:onClick="sacarFoto"
             android:id="@+id/exercise_button3" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exercise_audio"
+            android:onClick="recordAudio"
             android:id="@+id/exercise_button4" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exercise_video"
+            android:onClick="recordVideo"
             android:id="@+id/exercise_button5" />
     </LinearLayout>
 </RelativeLayout>
