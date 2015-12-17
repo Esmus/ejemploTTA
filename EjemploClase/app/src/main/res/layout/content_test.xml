@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:text="Ayuda"
             android:visibility="invisible"
+            android:onClick="ayuda"
             android:id="@+id/test_button_ayuda" />
 
         <TextView
