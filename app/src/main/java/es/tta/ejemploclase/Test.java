@@ -3,54 +3,77 @@ package es.tta.ejemploclase;
 /**
  * Created by Miren on 17/12/2015.
  */
+
+//clase que contiene el test
 public class Test {
 
 
-    protected String getWording(){
+    private String wording;
+    private String advise;
+    private Choice[] choices;
+    private int adviseTipo;
 
-       String preguntaTest="¿Cual de las siguientes opciones NO se indica en el fichero de manifiesto de la app?";
+    //constantes tipos advise
+    static public final short HTML_ADVISE = 0;
+    static public final short VIDEO_ADVISE = 1;
+    static public final short AUDIO_ADVISE = 2;
 
-        return preguntaTest;
+    //constructor
+    public Test(String pregunta,String [] respuestas, boolean [] posicionCorrectas, int tipoAdvise,String Advise){
+
+        advise = Advise;
+        adviseTipo = tipoAdvise;
+        wording = pregunta;
+            choices = new Choice[posicionCorrectas.length];
+            int j = 0;
+            for(String choice : respuestas){
+                choices[j] = new Choice(respuestas[j],posicionCorrectas[j]);
+                j++;
+            }
+
     }
-
-    public Choice[]getChoices(){
-
-        Choice [] choices= new Choice[5];
-
-        choices[0]=new Choice("Versión de la aplicación",false);
-        choices[1]= new Choice("Listado de componentes de la aplicación",false);
-        choices[2]= new Choice(  "Opciones del menú de ajustes",true);
-        choices[3]= new Choice( "Nivel mínimo de la API Android requerida",false);
-        choices[4]= new Choice("Nombre del paquete java de la aplicación",false);
-
-        return choices;
-
-    }
-
 
 
     public class Choice{
+
         private String wording;
-        private boolean correcta;
+        private boolean correct;
 
-        public Choice(String wording, boolean correcta){
-
-            this.wording=wording;
-            this.correcta=correcta;
-
+        public Choice(String Swording, boolean Correct){
+            wording=Swording;
+            correct=Correct;
         }
 
-        public String getWording(){
+        public String getWording(){ return wording;  }
 
-            return this.wording;
+        public boolean isCorrect(){
+            return correct;
         }
-
-        public boolean isCorrecta(){
-            return this.correcta;
-        }
-
-
     }
+
+    public String getWording(){
+
+        return wording;
+    }
+
+    public Choice[] getChoices(){
+        return choices;
+    }
+
+    public String getAdvice(){
+
+        return advise;
+    }
+
+    public int getTipoAdvise(){
+        return adviseTipo;
+    }
+
+
+
+
+
+
 
 
 

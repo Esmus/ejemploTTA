@@ -1,20 +1,32 @@
 package es.tta.ejemploclase;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.VideoView;
+
+import java.io.IOException;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int correct=0;
+    private int  adviseTipo;
     private String advise;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +38,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
         Data data= new Data();
         Test test= data.getTest();
-
-
 
         TextView textWording=(TextView)findViewById(R.id.test_wording);
         textWording.setText(test.getWording());
@@ -43,17 +53,37 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             radio.setText(choice.getWording());
             radio.setOnClickListener(this);//hacer visible el botton enviar
             group.addView(radio);
-            if(choice.isCorrecta()){
+            if(choice.isCorrect()){
                 correct=i;
             }
             i++;
 
            }
 
-
-        advise="consejo......";
+        advise=test.getAdvice();
+        adviseTipo = test.getTipoAdvise();
+        layout = (LinearLayout) findViewById(R.id.test_radioGroup);
 
     }
+
+
+    public void ayuda(View view) throws IOException {
+        view.setEnabled(false);
+        switch(adviseTipo){
+            case Test.HTML_ADVISE:
+                showAudio(advise);
+                break;
+            case Test.AUDIO_ADVISE:
+                showHtml(advise);
+                break;
+            case Test.VIDEO_ADVISE:
+                showVideo(advise);
+                break;
+        }
+    }
+
+
+
 
     @Override
     public void onClick(View view){
@@ -62,6 +92,9 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+
+
 
     public void send(View view){
 
@@ -96,24 +129,71 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(getApplicationContext(), "Has acertado", Toast.LENGTH_SHORT).show();
         }
 
-
-
     }
 
 
-    public void ayuda(View view){
+    private void showVideo(String advise){
+        VideoView video = new VideoView(this);
+        video.setVideoURI(Uri.parse(advise));
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        video.setLayoutParams(params);
 
-                TextView helpText = (TextView) findViewById(R.id.test_texto_ayuda);
-                helpText.setText(R.string.test_texto_help);
+        //botones
+        MediaController controller = new MediaController(this){
+            @Override
+            public void hide(){
+                //para que no se esconda sobreescribimos el metodo
+            }
 
-                /*
-                WebView web= new WebView(this);
-                web.loadData(advise,"text/html",null);
-                web.setBackgroundColor(Color.TRANSPARENT);
-                web.setLayerType(WebView.LAYER_TYPE_SOFTWARE,null);
-                layout.addView(web);
-                */
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent event){
+                if(event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+                    finish();//cuando el usuario de a la tecla atars se finalice
+                return super.dispatchKeyEvent(event);//resto llamamos a los metodos de la clase
+            }
+        };
+        controller.setAnchorView(video);
+        video.setMediaController(controller);
 
-
+        layout.addView(video);
+        video.start();
     }
+
+    private void showHtml(String advise){
+        if (advise.substring(0, 10).contains("://")) {
+            Uri uri = Uri.parse(advise);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } else {
+            WebView web = new WebView(this);
+            //web.loadUrl(advise)
+            web.loadData(advise, "text/html", null);
+            web.setBackgroundColor(Color.TRANSPARENT);//para que se vea bien
+            web.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+            layout.addView(web);
+        }
+    }
+
+    private void showAudio(String advise) throws IOException {
+        View view = new View(this);
+        AudioPlayer audio = new AudioPlayer(view);
+        audio.setAudioUri(Uri.parse(advise));
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        view.setLayoutParams(params);
+
+        layout.addView(view);
+        audio.start();
+    }
+
+
+
+
+
+
+
+
+
+
 }
