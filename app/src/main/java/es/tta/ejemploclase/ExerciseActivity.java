@@ -48,19 +48,22 @@ public class ExerciseActivity extends AppCompatActivity {
 
     public void sacarFoto(View view) {
 
+
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Toast.makeText(this, R.string.no_camera, Toast.LENGTH_SHORT).show();
         } else {
+
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intent.resolveActivity(getPackageManager()) != null) {
+            if(intent.resolveActivity(getPackageManager())!=null){
+
                 File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 try {
-                    File file = File.createTempFile("ttaPicture", ".jpg", dir);
+                    File file = File.createTempFile("tta", ".jpg", dir);
                     pictureUri = Uri.fromFile(file);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
-                    startActivityForResult(intent, PICTURE_REQUEST_CODE);
-                } catch (IOException e) {
-
+                    startActivityForResult(intent,PICTURE_REQUEST_CODE);
+                }catch (IOException e){
+                  e.printStackTrace();
                 }
             } else {
                 Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
@@ -75,23 +78,16 @@ public class ExerciseActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.no_micro, Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-                try {
-                    File file = File.createTempFile("ttaAudio", ".aac", dir);
-                    Uri audioUri = Uri.fromFile(file);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, audioUri);
-                    intent.putExtra(MediaStore.Audio.Media.EXTRA_MAX_BYTES, 2000000); //2MB de grabacion
-                    startActivityForResult(intent, AUDIO_REQUEST_CODE);
-                } catch (IOException e) {
+            if(intent.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(intent,AUDIO_REQUEST_CODE);
 
-                }
             } else {
                 Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
             }
         }
 
     }
+
 
     public void recordVideo(View view) {
 
@@ -100,18 +96,8 @@ public class ExerciseActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             if (intent.resolveActivity(getPackageManager()) != null) {
-                File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                try {
-                    File file = File.createTempFile("ttaVideo", ".mp4", dir);
-                    Uri videoUri = Uri.fromFile(file);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-                    intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20000000); //20MB
-                    intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 20000); //10 segundos
-                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); //Alta
-                    startActivityForResult(intent, VIDEO_REQUEST_CODE);
-                } catch (IOException e) {
+                startActivityForResult(intent,VIDEO_REQUEST_CODE);
 
-                }
             } else {
                 Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
             }
@@ -130,7 +116,6 @@ public class ExerciseActivity extends AppCompatActivity {
             case READ_REQUEST_CODE:
             case VIDEO_REQUEST_CODE:
             case AUDIO_REQUEST_CODE:
-
                 subirFichero(data.getData());
                 break;
             case PICTURE_REQUEST_CODE:

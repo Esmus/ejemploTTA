@@ -25,7 +25,7 @@
     receviers, y content provider de los que esta compuesta la aplicacion.......</string>
     <string name="no_camera">No tienes camara en tu dispositivo movil</string>
     <string name="no_micro">No tienes microfono</string>
-    <string name="no_app">....</string>
+    <string name="no_app">NO hay aplicacion</string>
 
 
 </resources>
