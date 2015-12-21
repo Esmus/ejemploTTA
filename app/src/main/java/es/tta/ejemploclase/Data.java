@@ -31,8 +31,8 @@ public class Data {
         test[0] = new Test("¿Quien es el director de Gattaca?",preguntas,correctas,Test.HTML_ADVISE,advise);
 
         //test2
-        preguntas = new String[3];
-        correctas = new boolean[3];
+        preguntas = new String[4];
+        correctas = new boolean[4];
         preguntas[0] = "Leonardo Di Caprio";
         correctas[0] = false;
         preguntas[1] = "Jake Gyllenhaal";
@@ -42,10 +42,10 @@ public class Data {
         preguntas[3] = "Brad Pitt";
         correctas[3] = false;
         advise = "";
-        test[1] = new Test("¿Quien es el actor principa de Donnie darko?",preguntas,correctas,Test.VIDEO_ADVISE,advise);
+        test[1] = new Test("¿Quien es el actor principal de Donnie darko?",preguntas,correctas,Test.VIDEO_ADVISE,advise);
         //test3
-        preguntas = new String[3];
-        correctas = new boolean[3];
+        preguntas = new String[2];
+        correctas = new boolean[2];
         preguntas[0] = "Los humanos tienen 1 ojo";
         correctas[0] = false;
         preguntas[1] = "Los humanos tienen 2 ojos";

@@ -62,7 +62,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
         advise=test.getAdvice();
         adviseTipo = test.getTipoAdvise();
-        layout = (LinearLayout) findViewById(R.id.test_radioGroup);
+        layout = (LinearLayout) findViewById(R.id.test_layout);
 
     }
 
@@ -71,10 +71,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         view.setEnabled(false);
         switch(adviseTipo){
             case Test.HTML_ADVISE:
-                showAudio(advise);
+                showHtml(advise);
                 break;
             case Test.AUDIO_ADVISE:
-                showHtml(advise);
+                showAudio(advise);
                 break;
             case Test.VIDEO_ADVISE:
                 showVideo(advise);
