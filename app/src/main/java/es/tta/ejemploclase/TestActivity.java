@@ -90,10 +90,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.test_button_send).setVisibility(View.VISIBLE);
 
-
     }
-
-
 
 
     public void send(View view){

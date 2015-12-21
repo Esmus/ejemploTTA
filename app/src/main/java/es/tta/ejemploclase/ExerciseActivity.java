@@ -16,14 +16,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
 
+
+
 public class ExerciseActivity extends AppCompatActivity {
 
 
-
-    public final static short READ_REQUEST_CODE =0;
-    public final static short VIDEO_REQUEST_CODE=1;
-    public final static short AUDIO_REQUEST_CODE=2;
-    public final static short PICTURE_REQUEST_CODE=3;
+    public final static short READ_REQUEST_CODE = 0;
+    public final static short VIDEO_REQUEST_CODE = 1;
+    public final static short AUDIO_REQUEST_CODE = 2;
+    public final static short PICTURE_REQUEST_CODE = 3;
+    private   Uri pictureUri;
 
 
     @Override
@@ -36,11 +38,7 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-    public void subirFichero(View view){
+    public void subirFichero(View view) {
 
 
         Toast toast = Toast.makeText(this, "No implementada la accion de subirFichero", Toast.LENGTH_SHORT);
@@ -48,7 +46,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
     }
 
-    public void sacarFoto(View view){
+    public void sacarFoto(View view) {
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Toast.makeText(this, R.string.no_camera, Toast.LENGTH_SHORT).show();
@@ -58,7 +56,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 try {
                     File file = File.createTempFile("ttaPicture", ".jpg", dir);
-                    Uri pictureUri = Uri.fromFile(file);
+                    pictureUri = Uri.fromFile(file);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
                     startActivityForResult(intent, PICTURE_REQUEST_CODE);
                 } catch (IOException e) {
@@ -71,7 +69,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
     }
 
-    public void recordAudio(View view){
+    public void recordAudio(View view) {
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
             Toast.makeText(this, R.string.no_micro, Toast.LENGTH_SHORT).show();
@@ -84,7 +82,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     Uri audioUri = Uri.fromFile(file);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, audioUri);
                     intent.putExtra(MediaStore.Audio.Media.EXTRA_MAX_BYTES, 2000000); //2MB de grabacion
-                    startActivityForResult(intent,AUDIO_REQUEST_CODE);
+                    startActivityForResult(intent, AUDIO_REQUEST_CODE);
                 } catch (IOException e) {
 
                 }
@@ -95,7 +93,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
     }
 
-    public void recordVideo(View view){
+    public void recordVideo(View view) {
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Toast.makeText(this, R.string.no_camera, Toast.LENGTH_SHORT).show();
@@ -110,7 +108,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20000000); //20MB
                     intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 20000); //10 segundos
                     intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); //Alta
-                    startActivityForResult(intent,VIDEO_REQUEST_CODE);
+                    startActivityForResult(intent, VIDEO_REQUEST_CODE);
                 } catch (IOException e) {
 
                 }
@@ -121,29 +119,34 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
-    protected  void onActivityResult(int requestCode,int resultCode,Intent data){
-        if(resultCode!= Activity.RESULT_OK){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
 
             return;
         }
-        switch (requestCode){
+        switch (requestCode) {
 
             case READ_REQUEST_CODE:
             case VIDEO_REQUEST_CODE:
             case AUDIO_REQUEST_CODE:
 
-              //  subirFichero(data.getData());
+                subirFichero(data.getData());
                 break;
             case PICTURE_REQUEST_CODE:
 
-               // subirFichero(pictureUri);
+                subirFichero(pictureUri);
                 break;
         }
 
     }
-}
 
+
+    public void subirFichero(Uri uri) {
+
+
+        Toast toast = Toast.makeText(this, "No implementada la accion de subirFichero", Toast.LENGTH_SHORT);
+        toast.show();
+
+    }
+}
