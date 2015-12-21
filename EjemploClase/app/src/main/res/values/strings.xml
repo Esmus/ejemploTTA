@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">EjemploClase</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_user">Usuario</string>
+    <string name="menu_usuario">Usuario</string>
+    <string name="menu_usuario_contenido">Introduce DNI</string>
+    <string name="menu_password">Contraseña</string>
+    <string name="menu_password_contenido">Introduce Contraseña</string>
+    <string name="menu_boton_acceder">Acceder</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="menu_leccion">Lección 1: Introducción a Android</string>
+    <string name="menu_test">Nuevo Test</string>
+    <string name="menu_ejercicio">Nuevo ejercicio</string>
+    <string name="menu_seguimiento">Seguimiento</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="test_button_send">Enviar</string>
+    <string name="title_activity_exervise">ExerviseActivity</string>
+    <string name="title_activity_exercise">ExerciseActivity</string>
+    <string name="exercise_fichero">Subir Fichero</string>
+    <string name="exercise_foto">Sacar Foto</string>
+    <string name="exercise_audio">Grabar Audio</string>
+    <string name="exercise_video">Grabar Video</string>
+    <string name="exercise_encabezado">Explica como aplicarias el patron de diseño MVC en el desarrollo de una app para Android</string>
+    <string name="test_texto_help">The manifest describes the components of the app: actividades, servicios, broadcast
+    receviers, y content provider de los que esta compuesta la aplicacion.......</string>
+    <string name="no_camera">No tienes camara en tu dispositivo movil</string>
+    <string name="no_micro">No tienes microfono</string>
+    <string name="no_app">....</string>
+
+
+</resources>
