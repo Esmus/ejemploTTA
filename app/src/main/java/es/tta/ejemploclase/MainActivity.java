@@ -1,6 +1,7 @@
 package es.tta.ejemploclase;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,10 +11,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_LOGIN="es.tta.ejemplo_tta.login";
     public final static String EXTRA_PASSWD="es.tta.ejemplo_tta.passwd";
+    public final static String PREF_LOGIN="es.tta.ejemplo_tta.preflogin";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,13 +24,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        EditText textLogin=(EditText)findViewById(R.id.login);
+        textLogin.setText(loadLogin());
+
+
     }
 
     public void login (View view){
         Intent intent=new Intent (this, MenuActivity.class);
         EditText editLogin=(EditText)findViewById(R.id.login);
         EditText editPasswd=(EditText)findViewById(R.id.passwd);
-        intent.putExtra(EXTRA_LOGIN,editLogin.getText().toString());
+        saveLogin(editLogin.getText().toString());
+        intent.putExtra(EXTRA_LOGIN, editLogin.getText().toString());
         intent.putExtra(EXTRA_PASSWD, editPasswd.getText().toString());
         startActivity(intent);
 
@@ -56,4 +64,20 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void saveLogin(String login){
+
+
+        SharedPreferences prefs= getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor= prefs.edit();
+        editor.putString(PREF_LOGIN,login);
+        editor.commit();
+    }
+
+    private String loadLogin(){
+
+        SharedPreferences prefs= getPreferences(MODE_PRIVATE);
+        return prefs.getString(PREF_LOGIN,null);
+    }
+
 }
