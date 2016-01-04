@@ -26,33 +26,15 @@ public class Business {
         return null;
     }
 
-    public Test getTest(int id) {
+    public Test getTest(int id)throws IOException,JSONException{
 
-        //la clase random genera numeros aleatorios
-        // Random  rnd = new Random();
-        // int pos = rnd.nextInt(3);
-        // return test[pos];
 
         try{
 
             Test test= new Test();
-            JSONObject json= new JSONObject(bundle.getString(EXTRA_TEST));
+            JSONObject json= rest.getJson(String.format("getTest?id=%d",id));
             test.setWording(json.getString("wording"));
             JSONArray array= json.getJSONArray("choices");
-
-            for(int i=0; i< array.length();i++){
-
-
-                JSONObject item= array.getJSONObject(i);
-                Test.Choice choice= new Test.Choice();
-                choice.setId(item.getInt("id"));
-                choice.setWording(item.getString("wording"));
-                choice.setCorrect(item.getBoolean("correct"));
-                choice.setAdvise(item.optString("advise",null));
-                choice.setMime(item.optString("mime",null));
-                test.getChoices().add(choice);
-
-            }
 
             return test;
 
@@ -73,18 +55,6 @@ public class Business {
     }
 
 
-
-    public void uploadSolution(int userId, int exerciseId, InputStream is, String filename) throws  IOException{
-
-
-    }
-    public void uploadChoice (int userId, int choiceId) throws JSONException, IOException{
-
-        JSONObject json= new JSONObject();
-        json.put("userId", userId);
-        json.put("choiceId", choiceId);
-        rest.postJson(json, "postChoice");
-    }
 
 
 
