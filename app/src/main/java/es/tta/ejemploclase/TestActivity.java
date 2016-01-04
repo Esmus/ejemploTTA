@@ -15,13 +15,17 @@ import android.widget.MediaController;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.IOException;
 
-public class TestActivity extends AppCompatActivity implements View.OnClickListener {
+import es.tta.ejemploclase.presentation.Data;
+import es.tta.ejemploclase.prof.views.AudioPlayer;
+import es.tta.ejemploclase.R;
+import es.tta.ejemploclase.model.Test;
+
+public class TestActivity extends ModelActivity implements View.OnClickListener {
 
     private int correct=0;
     private int  adviseTipo;
@@ -36,7 +40,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
 
-        Data data= new Data();
+        Data data= new Data(savedInstanceState);
         Test test= data.getTest();
 
         TextView textWording=(TextView)findViewById(R.id.test_wording);
@@ -53,6 +57,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             radio.setText(choice.getWording());
             radio.setOnClickListener(this);//hacer visible el botton enviar
             group.addView(radio);
+            advise=choice.getAdvise();
+            adviseTipo=choice.getAdviseTipo();
             if(choice.isCorrect()){
                 correct=i;
             }
@@ -60,8 +66,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
            }
 
-        advise=test.getAdvice();
-        adviseTipo = test.getTipoAdvise();
+
         layout = (LinearLayout) findViewById(R.id.test_layout);
 
     }
@@ -119,8 +124,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             if(advise!=null && !advise.isEmpty() ){
 
                findViewById(R.id.test_button_ayuda).setVisibility(View.VISIBLE);
-
-
             }
         } else {
             Toast.makeText(getApplicationContext(), "Has acertado", Toast.LENGTH_SHORT).show();
@@ -152,7 +155,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         };
         controller.setAnchorView(video);
         video.setMediaController(controller);
-
         layout.addView(video);
         video.start();
     }
@@ -179,7 +181,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         view.setLayoutParams(params);
-
         layout.addView(view);
         audio.start();
     }

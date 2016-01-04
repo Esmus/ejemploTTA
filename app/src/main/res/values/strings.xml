@@ -26,6 +26,7 @@
     <string name="no_camera">No tienes camara en tu dispositivo movil</string>
     <string name="no_micro">No tienes microfono</string>
     <string name="no_app">NO hay aplicacion</string>
+    <string name="title_activity_model">ModelActivity</string>
 
 
 </resources>

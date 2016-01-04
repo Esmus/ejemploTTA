@@ -1,4 +1,4 @@
-package es.tta.ejemploclase;
+package es.tta.ejemploclase.prof.views;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;

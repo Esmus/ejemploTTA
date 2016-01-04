@@ -2,6 +2,8 @@ package es.tta.ejemploclase;
 
 import org.junit.Test;
 
+import es.tta.ejemploclase.model.Test;
+
 import static org.junit.Assert.*;
 
 /**

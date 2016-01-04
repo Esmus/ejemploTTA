@@ -1,6 +1,9 @@
 package es.tta.ejemploclase;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,9 +19,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.content.Intent;
 
+import es.tta.ejemploclase.R;
 
 
-public class ExerciseActivity extends AppCompatActivity {
+public class ExerciseActivity extends ModelActivity {
 
 
     public final static short READ_REQUEST_CODE = 0;
@@ -132,6 +136,14 @@ public class ExerciseActivity extends AppCompatActivity {
 
         Toast toast = Toast.makeText(this, "No implementada la accion de subirFichero", Toast.LENGTH_SHORT);
         toast.show();
+
+        ConnectivityManager connMgr= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo= connMgr.getActiveNetworkInfo();
+        if(networkInfo!=null && networkInfo.isConnected()){
+            //fech data
+        }else{
+            //display error
+        }
 
     }
 }

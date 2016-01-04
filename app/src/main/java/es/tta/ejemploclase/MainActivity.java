@@ -1,22 +1,32 @@
 package es.tta.ejemploclase;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import es.tta.ejemploclase.MenuActivity;
+import es.tta.ejemploclase.R;
+import es.tta.ejemploclase.presentation.Preferences;
+import es.tta.ejemploclase.presentation.Preferences;
+
+import es.tta.ejemploclase.model.Status;
+
+public class MainActivity extends ModelActivity {
     public final static String EXTRA_LOGIN="es.tta.ejemplo_tta.login";
     public final static String EXTRA_PASSWD="es.tta.ejemplo_tta.passwd";
-    public final static String PREF_LOGIN="es.tta.ejemplo_tta.preflogin";
+
+    private Status receiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +35,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         EditText textLogin=(EditText)findViewById(R.id.login);
-        textLogin.setText(loadLogin());
+        textLogin.setText(prefs.loadLogin());
+
+        //Registrar BroadcastReceiver to track network connection changes.
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new Status();
+        this.registerReceiver(receiver,filter);
 
 
     }
@@ -34,13 +49,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent (this, MenuActivity.class);
         EditText editLogin=(EditText)findViewById(R.id.login);
         EditText editPasswd=(EditText)findViewById(R.id.passwd);
-        saveLogin(editLogin.getText().toString());
+        prefs.saveLogin(editLogin.getText().toString());
         intent.putExtra(EXTRA_LOGIN, editLogin.getText().toString());
         intent.putExtra(EXTRA_PASSWD, editPasswd.getText().toString());
         startActivity(intent);
-
-
-
 
     }
     @Override
@@ -65,19 +77,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveLogin(String login){
 
 
-        SharedPreferences prefs= getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor= prefs.edit();
-        editor.putString(PREF_LOGIN,login);
-        editor.commit();
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //unregister BroadcastReceiver when app is destroyed
+        if(receiver!= null){
+            this.unregisterReceiver(receiver);//desregistrarse del evento
+        }
     }
 
-    private String loadLogin(){
 
-        SharedPreferences prefs= getPreferences(MODE_PRIVATE);
-        return prefs.getString(PREF_LOGIN,null);
-    }
 
 }
+
+
+
+
+
+
+
