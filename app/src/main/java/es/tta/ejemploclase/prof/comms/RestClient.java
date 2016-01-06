@@ -96,9 +96,6 @@ public class RestClient {
         return new JSONObject(getString(path));
     }
 
-
-
-
     public int postFile(String path, InputStream is, String fileName) throws IOException{
 
         String boundary= Long.toString(System.currentTimeMillis());

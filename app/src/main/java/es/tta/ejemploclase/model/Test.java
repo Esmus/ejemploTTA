@@ -114,8 +114,6 @@ public class Test {
 
         }
 
-
-
     }
 
     public String getWording(){

@@ -25,7 +25,7 @@ public class MainActivity extends ModelActivity {
     public final static String EXTRA_LOGIN="es.tta.ejemplo_tta.login";
     public final static String EXTRA_PASSWD="es.tta.ejemplo_tta.passwd";
 
-    private Status receiver;
+    private NeworkReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MainActivity extends ModelActivity {
 
         //Registrar BroadcastReceiver to track network connection changes.
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        receiver = new Status();
+        receiver = new NeworkReceiver ();
         this.registerReceiver(receiver,filter);
 
 
