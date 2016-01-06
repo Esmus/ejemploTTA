@@ -21,6 +21,7 @@ import android.widget.VideoView;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import es.tta.ejemploclase.presentation.Data;
 import es.tta.ejemploclase.prof.views.AudioPlayer;
@@ -36,6 +37,7 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
     private String mime;
     private String advise;
     private LinearLayout layout;
+    private Test test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +47,21 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
 
 
-        Test test= data.getTest();
+        test= data.getTest();
 
         TextView textWording=(TextView)findViewById(R.id.test_wording);
         textWording.setText(test.getWording());
 
 
+
         int i=0;
 
         RadioGroup group= (RadioGroup)findViewById(R.id.test_radioGroup);
+
+        ArrayList<Test.Choice> prueba= test.getChoices();
+
+       // Toast.makeText(getApplicationContext(), "numero de choices"+prueba.size(), Toast.LENGTH_SHORT).show();
+
 
         for(Test.Choice choice : test.getChoices()){
 
@@ -63,13 +71,6 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
             group.addView(radio);
             advise=choice.getAdvise();
             mime=choice.getMime();
-
-            if(mime.toString().matches("text/html"))
-                adviseTipo=1;
-            else if (mime.toString().matches("audio/mpeg"))
-                adviseTipo=3;
-            else
-                adviseTipo=2;
 
             if(choice.isCorrect()){
                 correct=i;
@@ -86,14 +87,14 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
 
     public void ayuda(View view) throws IOException {
         view.setEnabled(false);
-        switch(adviseTipo){
-            case Test.HTML_ADVISE:
+        switch(mime){
+            case "text/html":
                 showHtml(advise);
                 break;
-            case Test.AUDIO_ADVISE:
+            case "audio/mpeg":
                 showAudio(advise);
                 break;
-            case Test.VIDEO_ADVISE:
+            case "video/mp4":
                 showVideo(advise);
                 break;
         }
@@ -127,9 +128,12 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         if (selected != correct) {
             group.getChildAt(selected).setBackgroundColor(Color.RED);
             Toast.makeText(getApplicationContext(), "Has fallado!", Toast.LENGTH_SHORT).show();
-
+            Test.Choice choice= test.getChoice(selected);
+            advise = choice.getAdvise();
+            mime= choice.getMime();
+            Toast.makeText(getApplicationContext(), mime, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), advise, Toast.LENGTH_SHORT).show();
             if(advise!=null && !advise.isEmpty() ){
-
                findViewById(R.id.test_button_ayuda).setVisibility(View.VISIBLE);
             }
         } else {

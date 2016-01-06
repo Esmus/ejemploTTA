@@ -13,6 +13,7 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import es.tta.ejemploclase.model.Exercise;
+import es.tta.ejemploclase.model.Status;
 import es.tta.ejemploclase.model.Test;
 import es.tta.ejemploclase.presentation.Data;
 import es.tta.ejemploclase.prof.views.ProgressTask;
@@ -26,9 +27,36 @@ public class MenuActivity extends ModelActivity {
 
         Intent intent =getIntent();
         TextView textLogin=(TextView)findViewById(R.id.menu_login);
-        textLogin.setText(("Bienvenido "+intent.getStringExtra(MainActivity.EXTRA_LOGIN)));
+        textLogin.setText(("Bienvenido "+ data.getExtraDni()));
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    Status user= server.getStatus(data.getExtraDni(),data.getAuthToken());
+
+                    data.putUserId(user.getId());
+                    data.putUserName(user.getUser());
+                    // data.putAuthToken(dni + ":" + password);
+                    data.setNextText(user.getNextTest());
+                    data.setNextExercise(user.getNextExercise());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).start();
+
 
     }
 

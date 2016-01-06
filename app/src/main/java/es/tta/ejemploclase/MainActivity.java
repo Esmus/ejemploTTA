@@ -59,29 +59,15 @@ public class MainActivity extends ModelActivity {
 
         if(dni.matches("[0-9]{8}[A-Z]")){
 
-           new Thread(new Runnable() {
-               @Override
-               public void run() {
-
-                   try {
-                       Status user= server.getStatus(dni,password);
                        prefs.saveLogin(dni);
-                       data.putUserId(user.getId());
-                       data.putUserName(user.getUser());
-                       data.putAuthToken(dni+":"+password);
-                       data.setNextText(user.getNextTest());
-                       data.setNextExercise(user.getNextExercise());
+
+                      // data.putAuthToken(dni + ":" + password);
+                       data.putAuthToken(password);
+                        data.putUserDni(dni);
+
                        startModelActivity(MenuActivity.class);
 
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                   } catch (JSONException e) {
-                       e.printStackTrace();
-                   }
 
-
-               }
-           }).start();
 
         }
 

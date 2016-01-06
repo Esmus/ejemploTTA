@@ -16,6 +16,7 @@ public class Test {
     private String wording;
     private ArrayList choices= new ArrayList<Choice>();
 
+
     //constantes tipos advise
     static public final short HTML_ADVISE = 0;
     static public final short VIDEO_ADVISE = 1;
@@ -27,6 +28,18 @@ public class Test {
     public ArrayList<Choice> getChoices(){
         return choices;
     }
+
+    public Choice getChoice(int i){
+
+        return (Choice) choices.get(i);
+
+    }
+
+    public void setChoices(ArrayList choices) {
+        this.choices = choices;
+    }
+
+
 
     public void setWording(String wording){
 

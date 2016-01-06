@@ -1,12 +1,8 @@
 package es.tta.ejemploclase.prof.comms;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.util.Base64;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -58,33 +54,25 @@ public class RestClient {
     //funcion generica que devuleve una conexion
     private HttpURLConnection getConnection(String path) throws IOException{
 
-        URL url= new URL(String.format("%s/%s",baseURL,path));// el path y el path relativo
-        HttpURLConnection conn= (HttpURLConnection)url.openConnection();
-
-
+        URL url  = new URL(String.format("%s/%s",baseURL,path));
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         for(Map.Entry<String,String> property : properties.entrySet())
             conn.setRequestProperty(property.getKey(),property.getValue());
-        conn.setUseCaches(false);
-
         return conn;
-
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public String getString (String path) throws IOException{
 
 
-        HttpURLConnection conn=null;
+        HttpURLConnection conn = null;
         try{
-
-            conn= getConnection(path);
-            try(BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()))){//devuelve string binareo
+            conn = getConnection(path);
+            try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
                 return br.readLine();
             }
-
-        }finally{
-            if(conn!=null)
-            conn.disconnect();
+        }finally {
+            if(conn != null)
+                conn.disconnect();
         }
     }
 
@@ -101,7 +89,6 @@ public class RestClient {
         HttpURLConnection conn=null;
 
         try{
-
             conn= getConnection(path);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection-Type", "multipart/form-data;boundary=" + boundary);
@@ -127,7 +114,7 @@ public class RestClient {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+
     public int postJson(final JSONObject json, String path) throws IOException{
 
         HttpURLConnection conn= null;

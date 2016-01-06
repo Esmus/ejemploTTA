@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import es.tta.ejemploclase.prof.comms.RestClient;
 
@@ -39,9 +40,23 @@ public class Business {
         try{
 
             Test test= new Test();
-            JSONObject json= rest.getJson(String.format("getTest?id=%d",id));
+            JSONObject json= rest.getJson(String.format("getTest?id=%d", id));
             test.setWording(json.getString("wording"));
             JSONArray array= json.getJSONArray("choices");
+            ArrayList aux= new ArrayList();
+
+            for(int i=0;i< array.length();i++){
+
+                JSONObject item= array.getJSONObject(i);
+                Test.Choice choice = new Test.Choice();
+                choice.setId(item.getInt("id"));
+                choice.setAnswer(item.getString("answer"));
+                choice.setCorrect(item.getBoolean("correct"));
+                choice.setAdvise(item.optString("advise", null));
+                choice.setMime(item.optString("mime","text/html"));
+                test.getChoices().add(choice);
+
+            }
 
             return test;
 
