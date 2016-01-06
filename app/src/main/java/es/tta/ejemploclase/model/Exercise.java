@@ -8,7 +8,6 @@ public class Exercise {
     private int id;
     private String wording;
 
-
     public int getId() {
         return id;
     }

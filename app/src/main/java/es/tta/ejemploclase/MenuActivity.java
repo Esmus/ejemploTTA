@@ -8,6 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import es.tta.ejemploclase.model.Test;
+import es.tta.ejemploclase.presentation.Data;
+
 public class MenuActivity extends ModelActivity {
 
     @Override
@@ -21,20 +28,18 @@ public class MenuActivity extends ModelActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
     }
-
 
     public void test(View view){
 
-        Intent intent= new Intent(this, TestActivity.class);
+        Intent intent= newIntent(TestActivity.class);
         startActivity(intent);
 
     }
 
     public void ejercicio (View view){
 
-        Intent intent= new Intent(this, ExerciseActivity.class);
+        Intent intent= newIntent(ExerciseActivity.class);
         startActivity(intent);
 
     }

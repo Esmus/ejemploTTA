@@ -72,7 +72,6 @@ public class RestClient {
 
     }
 
-
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public String getString (String path) throws IOException{
 

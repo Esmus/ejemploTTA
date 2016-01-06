@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import es.tta.ejemploclase.prof.comms.RestClient;
 
@@ -21,13 +20,18 @@ public class Business {
         this.rest=rest;
     }
 
-    public Status getStatus(String dni)throws IOException, JSONException{
+    public Status getStatus(String dni, String pass)throws IOException, JSONException{
 
-        return null;
+        JSONObject json = rest.getJson(String.format("getStatus?dni=%s",dni));
+
+        Status user = new Status(dni,pass, json.getInt("id"),json.getString("user"),
+                json.getInt("lessonNumber"),json.getString("lessonTitle"),json.getInt("nextTest"),json.getInt("nextExercise"));
+
+
+        return user;
     }
 
     public Test getTest(int id)throws IOException,JSONException{
-
 
         try{
 
@@ -44,7 +48,6 @@ public class Business {
     }
 
     public Exercise getExercise(int id) throws IOException,JSONException{
-
 
         JSONObject json= rest.getJson(String.format("getExercise?id=%d",id));
         Exercise exercise= new Exercise();

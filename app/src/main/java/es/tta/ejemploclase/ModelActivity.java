@@ -19,7 +19,7 @@ import es.tta.ejemploclase.prof.comms.RestClient;
 public abstract class ModelActivity extends AppCompatActivity {
 
 
-    public static final String URL="http://server:8080/ServidorTta";
+    public static final String URL="http://u017633.ehu.eus:18080/AlumnoTta/rest/tta";
     protected RestClient rest;
     protected Business server;
     protected Preferences prefs;
@@ -38,7 +38,6 @@ public abstract class ModelActivity extends AppCompatActivity {
 
 
     }
-
 
     protected <T> void startModelActivity(Class<T> cls){
         Intent intent= newIntent(cls);

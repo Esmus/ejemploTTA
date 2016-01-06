@@ -26,8 +26,7 @@ public class Data {
     private final static String EXTRA_NAME = "es.tta.example.name";
     private final static String EXTRA_EXERCISE_ID = "es.tta.example.exerciseId";
     private final static String EXTRA_EXERCISE_WORDING = "es.tta.example.exerciseWording";
-    //no seguro
-    private final static String EXTRA_TEST="es.tta.example.extraTest";
+    private final static String EXTRA_TEST="es.tta.example.Test";
 
     private final Bundle bundle;
 
@@ -38,7 +37,6 @@ public class Data {
 
         this.bundle = bundle;
     }
-
 
     public Bundle getBundle() {
         return bundle;
@@ -97,7 +95,7 @@ public void putExercise( Exercise exercise){
                 JSONObject item= array.getJSONObject(i);
                 Test.Choice choice= new Test.Choice();
                 choice.setId(item.getInt("id"));
-                choice.setWording(item.getString("wording"));
+                choice.setAnswer(item.getString("answer"));
                 choice.setCorrect(item.getBoolean("correct"));
                 choice.setAdvise(item.optString("advise", null));
                 choice.setMime(item.optString("mime", null));
@@ -121,7 +119,7 @@ public void putExercise( Exercise exercise){
 
                 JSONObject item = new JSONObject();
                 item.put("id", choice.getId());
-                item.put("wording", choice.getWording());
+                item.put("answer", choice.getAnswer());
                 item.put("correct", choice.isCorrect());
                 item.put("advise", choice.getAdvise());
                 item.put("mime", choice.getMime());

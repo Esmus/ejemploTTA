@@ -40,7 +40,7 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
 
 
-        Data data= new Data(savedInstanceState);
+        Data data= new Data(savedInstanceState);//pasamos los datos de la actividad
         Test test= data.getTest();
 
         TextView textWording=(TextView)findViewById(R.id.test_wording);
@@ -87,9 +87,6 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         }
     }
 
-
-
-
     @Override
     public void onClick(View view){
 
@@ -97,9 +94,7 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
 
     }
 
-
     public void send(View view){
-
 
         RadioGroup group= (RadioGroup)findViewById(R.id.test_radioGroup);
         findViewById(R.id.test_button_send).setVisibility(View.GONE);
