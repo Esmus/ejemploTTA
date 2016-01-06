@@ -29,6 +29,7 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
 
     private int correct=0;
     private int  adviseTipo;
+    private String mime;
     private String advise;
     private LinearLayout layout;
 
@@ -40,7 +41,6 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
 
 
-        Data data= new Data(savedInstanceState);//pasamos los datos de la actividad
         Test test= data.getTest();
 
         TextView textWording=(TextView)findViewById(R.id.test_wording);
@@ -54,11 +54,19 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         for(Test.Choice choice : test.getChoices()){
 
             RadioButton radio=new RadioButton(this);
-            radio.setText(choice.getWording());
+            radio.setText(choice.getAnswer());
             radio.setOnClickListener(this);//hacer visible el botton enviar
             group.addView(radio);
             advise=choice.getAdvise();
-            adviseTipo=choice.getAdviseTipo();
+            mime=choice.getMime();
+
+            if(mime.toString().matches("text/html"))
+                adviseTipo=1;
+            else if (mime.toString().matches("audio/mpeg"))
+                adviseTipo=3;
+            else
+                adviseTipo=2;
+
             if(choice.isCorrect()){
                 correct=i;
             }

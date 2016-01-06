@@ -1,10 +1,14 @@
 package es.tta.ejemploclase.model;
 
+import android.net.Uri;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import es.tta.ejemploclase.prof.comms.RestClient;
 
@@ -55,6 +59,20 @@ public class Business {
         exercise.setWording(json.getString("wording"));
         return exercise;
 
+    }
+
+
+    public int postTest(int user, int choice)throws IOException, JSONException{
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("idUser",user);
+        jsonObject.put("idChoice",choice);
+        return rest.postJson(jsonObject,"Choice");
+    }
+
+    public int postExercise(Uri uri, int user, int exercise,String name)throws IOException{
+        InputStream is = new FileInputStream(uri.getPath());
+        String path = "postExercise?user="+user+"&id="+exercise;
+        return rest.postFile(path,is,name);
     }
 
 

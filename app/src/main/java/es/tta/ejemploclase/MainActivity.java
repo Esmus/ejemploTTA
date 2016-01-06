@@ -14,6 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 import es.tta.ejemploclase.MenuActivity;
 import es.tta.ejemploclase.R;
 import es.tta.ejemploclase.presentation.Preferences;
@@ -46,13 +50,44 @@ public class MainActivity extends ModelActivity {
     }
 
     public void login (View view){
-        Intent intent=new Intent (this, MenuActivity.class);
+
+        final Intent intent=newIntent(MenuActivity.class);
         EditText editLogin=(EditText)findViewById(R.id.login);
         EditText editPasswd=(EditText)findViewById(R.id.passwd);
-        prefs.saveLogin(editLogin.getText().toString());
-        intent.putExtra(EXTRA_LOGIN, editLogin.getText().toString());
-        intent.putExtra(EXTRA_PASSWD, editPasswd.getText().toString());
-        startActivity(intent);
+        final String dni = editLogin.getText().toString();
+        final String password = editPasswd.getText().toString();
+
+        if(dni.matches("[0-9]{8}[A-Z]")){
+
+           new Thread(new Runnable() {
+               @Override
+               public void run() {
+
+                   try {
+                       Status user= server.getStatus(dni,password);
+                       prefs.saveLogin(dni);
+                       intent.putExtra(EXTRA_LOGIN, dni);
+                       intent.putExtra(EXTRA_PASSWD,password);
+                       data.putUserId(user.getId());
+                       data.putUserName(user.getUser());
+                       data.putAuthToken(password);
+                       startActivity(intent);
+
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+
+
+               }
+           }).start();
+
+        }
+
+
+
+
 
     }
     @Override

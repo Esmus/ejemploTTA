@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
+import es.tta.ejemploclase.model.Exercise;
 import es.tta.ejemploclase.model.Test;
 import es.tta.ejemploclase.presentation.Data;
 
@@ -32,12 +33,50 @@ public class MenuActivity extends ModelActivity {
 
     public void test(View view){
 
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                   Test test= server.getTest(1);
+                    data.putTest(test);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
         Intent intent= newIntent(TestActivity.class);
         startActivity(intent);
+
 
     }
 
     public void ejercicio (View view){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    Exercise exercise =server.getExercise(1);
+                    data.putExercise(exercise);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).start();
 
         Intent intent= newIntent(ExerciseActivity.class);
         startActivity(intent);

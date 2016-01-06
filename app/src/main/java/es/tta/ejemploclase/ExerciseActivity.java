@@ -10,6 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,8 @@ import android.provider.MediaStore;
 import android.content.Intent;
 
 import es.tta.ejemploclase.R;
+import es.tta.ejemploclase.model.Exercise;
+import es.tta.ejemploclase.presentation.Data;
 
 
 public class ExerciseActivity extends ModelActivity {
@@ -38,15 +42,18 @@ public class ExerciseActivity extends ModelActivity {
         setContentView(R.layout.activity_exercise);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Exercise exercise= data.getExercise();
+        TextView textWording=(TextView)findViewById(R.id.textView4);
+        textWording.setText(exercise.getWording());
 
     }
 
-
     public void subirFichero(View view) {
 
-
-        Toast toast = Toast.makeText(this, "No implementada la accion de subirFichero", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, READ_REQUEST_CODE);
 
     }
 
@@ -92,7 +99,6 @@ public class ExerciseActivity extends ModelActivity {
 
     }
 
-
     public void recordVideo(View view) {
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
@@ -107,7 +113,6 @@ public class ExerciseActivity extends ModelActivity {
             }
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -130,19 +135,35 @@ public class ExerciseActivity extends ModelActivity {
 
     }
 
+    public void subirFichero(final Uri uri) {
 
-    public void subirFichero(Uri uri) {
 
-
-        Toast toast = Toast.makeText(this, "No implementada la accion de subirFichero", Toast.LENGTH_SHORT);
-        toast.show();
 
         ConnectivityManager connMgr= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo= connMgr.getActiveNetworkInfo();
         if(networkInfo!=null && networkInfo.isConnected()){
-            //fech data
-        }else{
+
+            File file = new File(uri.getPath());
+            final String name = file.getName();
+            final View view = findViewById(R.id.textView4);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        server.postExercise(uri,data.getUserId(),data.getExercise().getId(),name);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }).start();
+
+        } else{
             //display error
+            Toast.makeText(this, "No tienes conexion de red", Toast.LENGTH_SHORT).show();
         }
 
     }
