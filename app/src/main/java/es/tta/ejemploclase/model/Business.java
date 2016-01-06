@@ -31,7 +31,6 @@ public class Business {
         Status user = new Status(dni,pass, json.getInt("id"),json.getString("user"),
                 json.getInt("lessonNumber"),json.getString("lessonTitle"),json.getInt("nextTest"),json.getInt("nextExercise"));
 
-
         return user;
     }
 

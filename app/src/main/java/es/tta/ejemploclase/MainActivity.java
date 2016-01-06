@@ -51,7 +51,7 @@ public class MainActivity extends ModelActivity {
 
     public void login (View view){
 
-        final Intent intent=newIntent(MenuActivity.class);
+
         EditText editLogin=(EditText)findViewById(R.id.login);
         EditText editPasswd=(EditText)findViewById(R.id.passwd);
         final String dni = editLogin.getText().toString();
@@ -66,12 +66,12 @@ public class MainActivity extends ModelActivity {
                    try {
                        Status user= server.getStatus(dni,password);
                        prefs.saveLogin(dni);
-                       intent.putExtra(EXTRA_LOGIN, dni);
-                       intent.putExtra(EXTRA_PASSWD,password);
                        data.putUserId(user.getId());
                        data.putUserName(user.getUser());
-                       data.putAuthToken(password);
-                       startActivity(intent);
+                       data.putAuthToken(dni+":"+password);
+                       data.setNextText(user.getNextTest());
+                       data.setNextExercise(user.getNextExercise());
+                       startModelActivity(MenuActivity.class);
 
                    } catch (IOException e) {
                        e.printStackTrace();

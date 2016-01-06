@@ -15,6 +15,7 @@ import java.io.IOException;
 import es.tta.ejemploclase.model.Exercise;
 import es.tta.ejemploclase.model.Test;
 import es.tta.ejemploclase.presentation.Data;
+import es.tta.ejemploclase.prof.views.ProgressTask;
 
 public class MenuActivity extends ModelActivity {
 
@@ -34,52 +35,50 @@ public class MenuActivity extends ModelActivity {
     public void test(View view){
 
 
+        new ProgressTask<Test>(this){
 
-        new Thread(new Runnable() {
+
             @Override
-            public void run() {
-
-                try {
-                   Test test= server.getTest(1);
-                    data.putTest(test);
+            protected Test work() throws Exception {
 
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                return server.getTest(data.getNextText());
+            }
+
+            @Override
+            protected void onFinish(Test result) {
+
+                data.putTest(result);
+                startModelActivity(TestActivity.class);
 
             }
-        }).start();
+        }.execute();
 
-        Intent intent= newIntent(TestActivity.class);
-        startActivity(intent);
+
 
 
     }
 
     public void ejercicio (View view){
 
-        new Thread(new Runnable() {
+        new ProgressTask<Exercise>(this){
+
+
             @Override
-            public void run() {
+            protected Exercise work() throws Exception {
 
-                try {
-                    Exercise exercise =server.getExercise(1);
-                    data.putExercise(exercise);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
+                return server.getExercise(data.getNextExercise());
+            }
+
+            @Override
+            protected void onFinish(Exercise result) {
+
+                data.putExercise(result);
+                startModelActivity(ExerciseActivity.class);
 
             }
-        }).start();
-
-        Intent intent= newIntent(ExerciseActivity.class);
-        startActivity(intent);
+        }.execute();
 
     }
 

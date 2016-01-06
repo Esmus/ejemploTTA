@@ -137,8 +137,6 @@ public class ExerciseActivity extends ModelActivity {
 
     public void subirFichero(final Uri uri) {
 
-
-
         ConnectivityManager connMgr= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo= connMgr.getActiveNetworkInfo();
         if(networkInfo!=null && networkInfo.isConnected()){

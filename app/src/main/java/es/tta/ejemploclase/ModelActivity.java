@@ -30,9 +30,12 @@ public abstract class ModelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         data = new Data(getIntent().getExtras());
         rest= new RestClient(URL);
+
         String auth= data.getAuthToken();
-        if(auth !=null)
+        if(auth !=null) {
             rest.setAuthorization(auth);
+            rest.setHttpBasicAuth(data.getExtraDni(),data.getAuthToken());
+        }
         server= new Business(rest);
         prefs= new Preferences(this);
 

@@ -35,16 +35,15 @@ public class RestClient {
     public void setHttpBasicAuth(String user, String passwd){
 
     String basicAuth= Base64.encodeToString(String.format("%s:%s",user,passwd).getBytes(),Base64.DEFAULT);
-    properties.put(AUTH,String.format("Basic %s",basicAuth));
+      // setProperty(getAuthorization(),String.format("Basic %s",basicAuth));
+         properties.put(AUTH,String.format("Basic %s",basicAuth));
 
 }
-
     //pasamos entre actividades la autorizacion
     public String getAuthorization(){
 
         return properties.get(AUTH);
     }
-
 
     public void setAuthorization(String auth){
 
@@ -58,7 +57,6 @@ public class RestClient {
 
     //funcion generica que devuleve una conexion
     private HttpURLConnection getConnection(String path) throws IOException{
-
 
         URL url= new URL(String.format("%s/%s",baseURL,path));// el path y el path relativo
         HttpURLConnection conn= (HttpURLConnection)url.openConnection();

@@ -18,12 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 import es.tta.ejemploclase.presentation.Data;
 import es.tta.ejemploclase.prof.views.AudioPlayer;
 import es.tta.ejemploclase.R;
 import es.tta.ejemploclase.model.Test;
+import es.tta.ejemploclase.prof.views.ProgressTask;
+import android.util.Log;
 
 public class TestActivity extends ModelActivity implements View.OnClickListener {
 
@@ -102,7 +106,7 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
 
     }
 
-    public void send(View view){
+    public void send(final View view){
 
         RadioGroup group= (RadioGroup)findViewById(R.id.test_radioGroup);
         findViewById(R.id.test_button_send).setVisibility(View.GONE);
@@ -117,7 +121,7 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         int selectedID = group.getCheckedRadioButtonId();
         group.getChildAt(correct).setBackgroundColor(Color.GREEN);
         View radioButton= group.findViewById( selectedID);
-        int selected=group.indexOfChild(radioButton);
+        final int selected=group.indexOfChild(radioButton);
 
 
         if (selected != correct) {
@@ -132,8 +136,27 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
             Toast.makeText(getApplicationContext(), "Has acertado", Toast.LENGTH_SHORT).show();
         }
 
-    }
 
+        //enviamos el test al servidor
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    server.postTest(data.getUserId(),selected);
+                }catch(Exception e){
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "error al subir el fichero", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Log.e("", e.getMessage(), e);
+                }
+            }
+        }).start();
+
+    }
 
     private void showVideo(String advise){
         VideoView video = new VideoView(this);

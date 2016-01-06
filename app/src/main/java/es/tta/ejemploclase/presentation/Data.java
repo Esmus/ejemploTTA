@@ -27,6 +27,28 @@ public class Data {
     private final static String EXTRA_EXERCISE_ID = "es.tta.example.exerciseId";
     private final static String EXTRA_EXERCISE_WORDING = "es.tta.example.exerciseWording";
     private final static String EXTRA_TEST="es.tta.example.Test";
+    private final static String EXTRA_DNI="es.tta.example.DNI";
+    private int nextText;
+
+
+
+    public int getNextExercise() {
+        return nextExercise;
+    }
+
+    public void setNextExercise(int nextExercise) {
+        this.nextExercise = nextExercise;
+    }
+
+    public int getNextText() {
+        return nextText;
+    }
+
+    public void setNextText(int nextText) {
+        this.nextText = nextText;
+    }
+
+    private int nextExercise;
 
     private final Bundle bundle;
 
@@ -56,6 +78,15 @@ public class Data {
         bundle.putString(EXTRA_AUTH, auth);
     }
 
+    public void putUserDni(String dni){
+
+        bundle.putString(EXTRA_DNI,dni);
+    }
+
+    public String getExtraDni(){
+        return bundle.getString(EXTRA_DNI);
+    }
+
     public String getAuthToken() {
 
         return bundle.getString(EXTRA_AUTH);
@@ -65,6 +96,8 @@ public class Data {
 
         bundle.getString(EXTRA_NAME);
     }
+
+
 
 
 public void putExercise( Exercise exercise){
