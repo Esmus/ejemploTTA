@@ -30,8 +30,6 @@ public class Data {
     private final static String EXTRA_DNI="es.tta.example.DNI";
     private int nextText;
 
-
-
     public int getNextExercise() {
         return nextExercise;
     }

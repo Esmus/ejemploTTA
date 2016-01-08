@@ -28,13 +28,11 @@ import es.tta.ejemploclase.presentation.Data;
 
 public class ExerciseActivity extends ModelActivity {
 
-
     public final static short READ_REQUEST_CODE = 0;
     public final static short VIDEO_REQUEST_CODE = 1;
     public final static short AUDIO_REQUEST_CODE = 2;
     public final static short PICTURE_REQUEST_CODE = 3;
     private   Uri pictureUri;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +148,11 @@ public class ExerciseActivity extends ModelActivity {
                 public void run() {
 
                     try {
-                        server.postExercise(uri,data.getUserId(),data.getExercise().getId(),name);
+                      int response=  server.postExercise(uri, data.getUserId(), data.getExercise().getId(), name);
+                        
+                        if(response<0){
+                            Toast.makeText(getApplicationContext(), "Error al subir el fichero", Toast.LENGTH_SHORT).show();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

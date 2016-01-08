@@ -68,6 +68,7 @@ public class RestClient {
         try{
             conn = getConnection(path);
             try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
+
                 return br.readLine();
             }
         }finally {
@@ -83,56 +84,49 @@ public class RestClient {
 
     public int postFile(String path, InputStream is, String fileName) throws IOException{
 
-        String boundary= Long.toString(System.currentTimeMillis());
-        String newLine="\r\n";
-        String prefix="--";
-        HttpURLConnection conn=null;
-
+        String boundary = Long.toString(System.currentTimeMillis());
+        String newLine = "\r\n";
+        String prefix = "--";
+        HttpURLConnection conn = null;
         try{
-            conn= getConnection(path);
+            conn = getConnection(path);
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Connection-Type", "multipart/form-data;boundary=" + boundary);
-            DataOutputStream out= new DataOutputStream(conn.getOutputStream());
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
             out.writeBytes(prefix+boundary+newLine);
-            out.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""+ fileName + "\""+newLine);
+            out.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""+fileName+"\""+newLine);
             out.writeBytes(newLine);
-            byte[] data= new byte[1024 * 1024];
-            int len;
 
-            while ( (len=is.read(data))>0   )
+            byte[] data = new byte[1024*1024];
+            int len;
+            while((len = is.read(data)) > 0)
                 out.write(data,0,len);
             out.writeBytes(newLine);
             out.writeBytes(prefix + boundary + prefix + newLine);
             out.close();
-            return conn.getResponseCode();//en este momento se envia el fichero
-
-
-        }finally{
-            if(conn!=null)
+            return conn.getResponseCode();
+        }finally {
+            if(conn != null)
                 conn.disconnect();
         }
-
     }
 
 
     public int postJson(final JSONObject json, String path) throws IOException{
 
-        HttpURLConnection conn= null;
-
+        HttpURLConnection conn = null;
         try{
-            conn= getConnection(path);
+            conn = getConnection(path);
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type","application/json;charset=UTF-8");
-            try(PrintWriter pw=new PrintWriter(conn.getOutputStream())){
+            conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            try(PrintWriter pw = new PrintWriter(conn.getOutputStream())){
                 pw.print(json.toString());
                 return conn.getResponseCode();
             }
-        }finally{
-            if(conn!=null)
+        } finally {
+            if(conn != null)
                 conn.disconnect();
         }
     }
-
-
 
 }

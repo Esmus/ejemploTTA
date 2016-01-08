@@ -83,8 +83,6 @@ public class MenuActivity extends ModelActivity {
         }.execute();
 
 
-
-
     }
 
     public void ejercicio (View view){

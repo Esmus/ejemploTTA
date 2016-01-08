@@ -1,6 +1,7 @@
 package es.tta.ejemploclase.model;
 
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,8 +20,6 @@ import es.tta.ejemploclase.prof.comms.RestClient;
 public class Business {
 
     private final RestClient rest;
-
-
     public Business(RestClient rest){
         this.rest=rest;
     }
@@ -53,11 +52,14 @@ public class Business {
                 choice.setAnswer(item.getString("answer"));
                 choice.setCorrect(item.getBoolean("correct"));
                 choice.setAdvise(item.optString("advise", null));
-                choice.setMime(item.optString("mime","text/html"));
+                if (item.isNull("resourceType")){
+                    choice.setMime(null);
+                }else
+                {
+                    choice.setMime(item.getJSONObject("resourceType").getString("mime"));
+                }
                 test.getChoices().add(choice);
-
             }
-
             return test;
 
         }catch (JSONException e){
@@ -78,8 +80,8 @@ public class Business {
 
     public int postTest(int user, int choice)throws IOException, JSONException{
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("idUser",user);
-        jsonObject.put("idChoice",choice);
+        jsonObject.put("userId",user);
+        jsonObject.put("choiceId",choice);
         return rest.postJson(jsonObject,"Choice");
     }
 
@@ -88,10 +90,5 @@ public class Business {
         String path = "postExercise?user="+user+"&id="+exercise;
         return rest.postFile(path,is,name);
     }
-
-
-
-
-
 
 }

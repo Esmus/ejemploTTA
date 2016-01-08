@@ -10,7 +10,6 @@ import android.widget.Toast;
  */
 public abstract class ProgressTask <T> extends AsyncTask<Void, Void, T>{
 
-
     protected final Context context;
     private final ProgressDialog dialog;
     private Exception e;
@@ -22,19 +21,16 @@ public abstract class ProgressTask <T> extends AsyncTask<Void, Void, T>{
         dialog.setMessage("Conectando...");
     }
 
-
     @Override
     protected void onPreExecute(){
 
         dialog.show();
     }
 
-
     @Override
     protected T doInBackground(Void... params){
 
         T result= null;
-
 
         try{
             result= work();
@@ -44,7 +40,6 @@ public abstract class ProgressTask <T> extends AsyncTask<Void, Void, T>{
         }
         return result;
     }
-
 
     @Override
     protected void onPostExecute(T result){

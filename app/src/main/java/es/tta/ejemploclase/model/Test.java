@@ -16,13 +16,10 @@ public class Test {
     private String wording;
     private ArrayList choices= new ArrayList<Choice>();
 
-
     //constantes tipos advise
-    static public final short HTML_ADVISE = 0;
-    static public final short VIDEO_ADVISE = 1;
-    static public final short AUDIO_ADVISE = 2;
-
-
+    static public final String HTML_ADVISE = "text/html";
+    static public final String VIDEO_ADVISE = "audio/mpeg";
+    static public final String AUDIO_ADVISE = "video/mp4";
     public Test(){}
 
     public ArrayList<Choice> getChoices(){
@@ -32,14 +29,11 @@ public class Test {
     public Choice getChoice(int i){
 
         return (Choice) choices.get(i);
-
     }
 
     public void setChoices(ArrayList choices) {
         this.choices = choices;
     }
-
-
 
     public void setWording(String wording){
 

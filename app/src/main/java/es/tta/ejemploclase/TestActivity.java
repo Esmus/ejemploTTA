@@ -30,10 +30,11 @@ import es.tta.ejemploclase.model.Test;
 import es.tta.ejemploclase.prof.views.ProgressTask;
 import android.util.Log;
 
+
 public class TestActivity extends ModelActivity implements View.OnClickListener {
 
     private int correct=0;
-    private int  adviseTipo;
+    //private int  adviseTipo;
     private String mime;
     private String advise;
     private LinearLayout layout;
@@ -51,8 +52,6 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
 
         TextView textWording=(TextView)findViewById(R.id.test_wording);
         textWording.setText(test.getWording());
-
-
 
         int i=0;
 
@@ -79,22 +78,20 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
 
            }
 
-
         layout = (LinearLayout) findViewById(R.id.test_layout);
 
     }
 
-
     public void ayuda(View view) throws IOException {
         view.setEnabled(false);
         switch(mime){
-            case "text/html":
+            case Test.HTML_ADVISE:
                 showHtml(advise);
                 break;
-            case "audio/mpeg":
+            case Test.AUDIO_ADVISE:
                 showAudio(advise);
                 break;
-            case "video/mp4":
+            case Test.VIDEO_ADVISE:
                 showVideo(advise);
                 break;
         }
@@ -124,22 +121,20 @@ public class TestActivity extends ModelActivity implements View.OnClickListener 
         View radioButton= group.findViewById( selectedID);
         final int selected=group.indexOfChild(radioButton);
 
-
         if (selected != correct) {
             group.getChildAt(selected).setBackgroundColor(Color.RED);
             Toast.makeText(getApplicationContext(), "Has fallado!", Toast.LENGTH_SHORT).show();
             Test.Choice choice= test.getChoice(selected);
             advise = choice.getAdvise();
             mime= choice.getMime();
-            Toast.makeText(getApplicationContext(), mime, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), advise, Toast.LENGTH_SHORT).show();
+          Toast.makeText(getApplicationContext(), mime, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), advise, Toast.LENGTH_SHORT).show();
             if(advise!=null && !advise.isEmpty() ){
                findViewById(R.id.test_button_ayuda).setVisibility(View.VISIBLE);
             }
         } else {
             Toast.makeText(getApplicationContext(), "Has acertado", Toast.LENGTH_SHORT).show();
         }
-
 
         //enviamos el test al servidor
 
